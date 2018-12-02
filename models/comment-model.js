@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const commentSchema = mongoose.Schema(
     {
-        text: { type:String, require: true},
-        autor: {}
+        text: { type: String, require: true},
+        author: { type: String, require: true },
+        post: { type: String, require: true }
     },
     {
         versionKey: false,
