@@ -4,8 +4,16 @@ services:
     build: ./
     restart: always
     command: npm run start
-    # command: sh -c "while true; do sleep 90; done;"
     volumes:
       - ./:/var/www/html
     ports:
      - "3001:3001"
+    depends_on:
+      - mongo
+  mongo:
+    build: ./mongo
+    ports:
+      - 27018:27017
+    restart: always
+    volumes:
+      - ./datadb:/data/db

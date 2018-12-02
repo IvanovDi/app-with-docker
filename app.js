@@ -1,8 +1,22 @@
 const express = require('express');
-const app = express();
+const mongoose = require('mongoose');
+const bluebird = require('bluebird');
+const bodyParser = require('body-parser');
+const User = require('./models/user-model');
+const user = require('./user');
 
-app.get('/', (req, res) => {
-	res.send('Hello world!');
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/users', user);
+
+
+mongoose.Promise = bluebird;
+mongoose.connect('mongodb://mongo:27017/warehouse', { useNewUrlParser: true });
+
+app.get('/', async (req, res) => {
+	const user = await User.findOne({ age: 24 });
+	res.send(user);
 });
 
 app.all('/secret', (req, res, next) => {
