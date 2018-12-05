@@ -11,6 +11,14 @@ router.get('/', async (req, res) => {
     res.send(users);
 });
 
+router.get('/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId)
+        .populate('posts')
+        .exec();
+
+    res.send(user);
+});
+
 router.post('/', async (req, res) => {
 
     let user = new User({

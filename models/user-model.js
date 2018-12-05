@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment-uniq-scope');
 
 const userSchema = mongoose.Schema(
     {
         firstName: String,
         lastName: String,
-        age: Number
+        age: Number,
+        posts: { type: mongoose.Schema.Types.ObjectId, ref: 'post' }
     },
     {
         versionKey: false,
@@ -19,5 +21,14 @@ const userSchema = mongoose.Schema(
         }
     }
 );
+
+const plugin = autoIncrement.getPlugin(mongoose.connection);
+
+userSchema.plugin(plugin, {
+  model: 'user',
+  field: 'userId',
+  startAt: 1
+
+});
 
 module.exports = mongoose.model('user', userSchema);

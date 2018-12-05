@@ -15,6 +15,7 @@
     "express": "^4.16.4",
     "http-errors": "^1.7.1",
     "mongoose": "^5.3.12",
+    "mongoose-auto-increment-uniq-scope": "^0.1.1",
     "nodemon": "^1.18.7"
   }
 }

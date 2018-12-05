@@ -1,35 +1,23 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const error = require('http-errors');
 const Post = require('../models/post-model');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const posts = await Post.find({});
+    const posts = await Post.find({}).populate('author');
     if (!posts) throw new error.NotFound();
 
     res.send(posts);
 });
-
-db.users.aggregate([
-  {
-    $lookup:
-      {
-        from: "posts",
-        localField: "_id",
-        foreignField: "author",
-        as: "user_posts"
-      }
- },
- { $match : { _id : ObjectId("5c04222600ab81001eea2a5e") } }
-]).pretty()
 
 router.post('/', async (req, res) => {
 
     let post = new Post({
         title: req.body.title || 'none',
         content: req.body.content || 'none',
-        author: req.body.author || 0
+        author: new mongoose.Types.ObjectId(req.body.author)
     });
 
     post = await post.save();
